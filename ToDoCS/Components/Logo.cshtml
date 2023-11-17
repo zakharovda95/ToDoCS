@@ -1,0 +1,13 @@
+@model dynamic;
+
+<div class="logo" style="width: @Model.size; height: @Model.size;">
+    <img alt="logo" src="@Url.Content("~/Images/logo.svg")" />
+</div>
+
+<style>
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>

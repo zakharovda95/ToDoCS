@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ToDoCS - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="@Url.Content("~/Css/_layout.css")"/>
+</head>
+
+<body>
+
+<header class="header">
+    @await Html.PartialAsync("~/Components/Logo.cshtml", new { size = "80px" })
+    
+    <nav class="nav">
+        <ul class="nav-links">
+            <li class="nav-links__link">
+                <a href="/Auth/Login">Регистрация</a>
+            </li>
+            <li class="nav-links__link">
+                <a href="/Auth/Registration">Войти</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main class="main">
+    @RenderBody()
+</main>
+
+<footer class="footer">
+    <div class="footer-logo">
+        @await Html.PartialAsync("~/Components/Logo.cshtml", new { size = "50px" })
+    </div>
+    <div class="footer-copy">
+        <p class="footer-copy__text">Все права защищены</p>
+    </div>
+</footer>
+</body>
+</html>
