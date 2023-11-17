@@ -1,9 +1,12 @@
+@using ToDoCS.Data.Enums
+@using ToDoCS.Helpers.HtmlHelpers
+
 <div class="login-page">
     <section class="login-page__title-section">
         <h1 class="login-page__title">Вход</h1>
     </section>
     
     <section class="login-page__form-section">
-        <form class="login-page__form"></form>
+        @FormGenerator.GenerateForm(ActionsNamesEnum.Index, ControllersNamesEnum.Login, "post")
     </section>
 </div>
