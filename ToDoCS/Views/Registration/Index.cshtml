@@ -1,12 +1,17 @@
 @using ToDoCS.Data.Enums
 @using ToDoCS.Helpers.HtmlHelpers
 
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+@section Style {
+    <link rel="stylesheet" href="@Url.Content("~/Css/Pages/registration.css")"/>
+}
+
 <div class="registration-page">
-    <section class="registration-page__title-section">
-        <h1 class="registration-page__title">Регистрация</h1>
-    </section>
-    
     <section class="registration-page__form-section">
+        <h4 class="registration-page__title">Регистрация</h4>
         @FormGenerator.GenerateForm(ActionsNamesEnum.Index, ControllersNamesEnum.Registration, "post")
     </section>
 </div>

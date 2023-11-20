@@ -14,17 +14,20 @@ public static class FormGenerator
         form.Attributes.Add("action", $"{controller}/{action}");
 
         form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-name", label: "Логин", placeholder: "Введите логин"));
-        form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-password", label: "Пароль", placeholder: "Введите пароль"));
+        form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-password", label: "Пароль", placeholder: "Введите пароль", type: "password"));
         
         if (controller == ControllersNamesEnum.Registration && action == ActionsNamesEnum.Index)
         {
-            form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-password-repeat", label: "Повтор пароля", placeholder: "Повторите пароль"));
+            form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-password-repeat", label: "Повтор пароля", placeholder: "Повторите пароль", type: "password"));
             form.InnerHtml.AppendHtml(UIGenerator.GetInputGroup(id: "global-form-input-email", label: "Email", placeholder: "Введите email"));
         }
 
         var buttonText = controller == ControllersNamesEnum.Registration ? "Зарегистрироваться" : "Войти";
 
         form.InnerHtml.AppendHtml(UIGenerator.GetButton(buttonText));
+        
+        form.AddCssClass("global-form");
+        form.AddCssClass($"global-form__{controller}-{action}");
 
         return form;
     }

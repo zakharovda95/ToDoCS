@@ -5,11 +5,16 @@
     font-family: sans-serif;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     background: white;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    height: 100%;
 }
 
 header {
@@ -52,6 +57,7 @@ main {
     height: 100%;
     flex: 1;
     max-width: 1200px;
+    padding: 12px;
     margin: 0 auto;
 }
 

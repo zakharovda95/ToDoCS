@@ -5,6 +5,7 @@
     <title>ToDoCS - @ViewData["Title"]</title>
     <link rel="stylesheet" href="@Url.Content("~/Css/_layout.css")"/>
     <link rel="stylesheet" href="@Url.Content("~/Css/_ui.css")"/>
+    @await RenderSectionAsync("Style", required: false)
 </head>
 
 <body>
@@ -36,5 +37,7 @@
         <p class="footer-copy__text">Все права защищены</p>
     </div>
 </footer>
+
+@await RenderSectionAsync("Script", required: false)
 </body>
 </html>

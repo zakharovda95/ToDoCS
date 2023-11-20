@@ -1,12 +1,17 @@
 @using ToDoCS.Data.Enums
 @using ToDoCS.Helpers.HtmlHelpers
 
+@{
+    ViewData["Title"] = "Вход";
+}
+
+@section Style {
+    <link rel="stylesheet" href="@Url.Content("~/Css/Pages/login.css")"/>
+}
+
 <div class="login-page">
-    <section class="login-page__title-section">
-        <h1 class="login-page__title">Вход</h1>
-    </section>
-    
     <section class="login-page__form-section">
+        <h4 class="login-page__title">Вход</h4>
         @FormGenerator.GenerateForm(ActionsNamesEnum.Index, ControllersNamesEnum.Login, "post")
     </section>
 </div>

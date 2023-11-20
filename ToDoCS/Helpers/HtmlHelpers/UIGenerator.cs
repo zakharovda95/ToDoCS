@@ -41,6 +41,7 @@ public static class UIGenerator
     {
         var buttonTag = new TagBuilder("button");
         buttonTag.Attributes.Add("type", type);
+        buttonTag.AddCssClass("global-button");
         buttonTag.AddCssClass($"global-button__{btnType}-{btnSize}");
         buttonTag.InnerHtml.Append(text);
         return buttonTag;

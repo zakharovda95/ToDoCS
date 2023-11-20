@@ -1,0 +1,98 @@
+/* Кнопки */
+
+.global-button {
+    color: white;
+    outline: none;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.global-button__Primary-Small,
+.global-button__Secondary-Small,
+.global-button__Tertiary-Small {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.global-button__Primary-Medium,
+.global-button__Secondary-Medium,
+.global-button__Tertiary-Medium {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.global-button__Primary-Large,
+.global-button__Secondary-Large,
+.global-button__Tertiary-Large {
+    padding: 12px 24px;
+    font-size: 15px;
+}
+
+.global-button__Primary-Large,
+.global-button__Primary-Medium,
+.global-button__Primary-Small {
+    background: dodgerblue;
+}
+.global-button__Primary-Large:hover,
+.global-button__Primary-Medium:hover,
+.global-button__Primary-Small:hover {
+    background: #0c88ff;
+}
+
+.global-button__Secondary-Large,
+.global-button__Secondary-Medium,
+.global-button__Secondary-Small {
+    background: #e36565;
+}
+
+.global-button__Secondary-Large:hover,
+.global-button__Secondary-Medium:hover,
+.global-button__Secondary-Small:hover {
+    background: #e14444;
+}
+
+.global-button__Tertiary-Large,
+.global-button__Tertiary-Medium,
+.global-button__Tertiary-Small {
+    background: #73cc73;
+}
+
+.global-button__Tertiary-Large:hover,
+.global-button__Tertiary-Medium:hover,
+.global-button__Tertiary-Small:hover {
+    background: #49cb49;
+}
+
+/* Input Group */
+
+.global-input__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.global-input__input {
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid grey;
+    min-height: 40px;
+    border-radius: 4px;
+}
+.global-input__input:focus {
+    border: 1px solid #0c88ff;
+}
+
+.global-input__label {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Формы */
+.global-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
