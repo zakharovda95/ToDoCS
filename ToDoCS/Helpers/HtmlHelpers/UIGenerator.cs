@@ -9,6 +9,7 @@ public static class UIGenerator
     public static IHtmlContent GetInputGroup(
         string id, 
         string label,
+        string name,
         string placeholder = "Введите текст", 
         string type = "text"
     )
@@ -21,6 +22,7 @@ public static class UIGenerator
         
         inputTag.Attributes.Add("placeholder", placeholder);
         inputTag.Attributes.Add("type", type);
+        inputTag.Attributes.Add("name", name);
         inputTag.Attributes.Add("id", id);
         inputTag.AddCssClass("global-input__input");
         

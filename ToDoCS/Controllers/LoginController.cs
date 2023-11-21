@@ -2,14 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ToDoCS.Controllers;
 
-[Route("Auth/{controller}")]
 public class LoginController: Controller
 {
     [HttpGet]
-    [Route("")]
-    [Route("{action}")]
+    [Route("Auth/[controller]")]
+    [Route("Auth/[controller]/[action]")]
     public IActionResult Index()
     {
         return View();
+    }
+
+    [HttpPost]
+    [Route("/api/Auth/[controller]/[action]")]
+    public IActionResult Login(string name, string password)
+    {
+        return Json(new { name, password });
     }
 }
