@@ -4,6 +4,7 @@ namespace ToDoCS.ViewModels;
 
 public record RegistrationViewModel
 {
+    
     [Required (ErrorMessage = "Обязательное поле")]
     public string Name { get; init; }
     

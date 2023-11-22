@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoCS.Interfaces;
+using ToDoCS.Models.Entities;
+using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
 public class RegistrationController: Controller
@@ -13,8 +16,23 @@ public class RegistrationController: Controller
     
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "RegisterAction")]
-    public IActionResult Register(string name, string password, string passwordRepeat, string email)
+    public IActionResult Register([FromBody] RegistrationViewModel model, IDBService dbService)
     {
-        return Json(new { name, password, passwordRepeat, email });
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+        if (dbService.IsEmailAlreadyExist(model.Email)) 
+            return BadRequest(new { success = false, message = "Email уже используется" });
+
+        var newUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = model.Name,
+            Email = model.Email,
+            Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
+        };
+
+        var isUserSaved = dbService.SaveUser(newUser);
+
+        return Json(new { result = isUserSaved, message = "Регистрация успешна" });
     }
 }

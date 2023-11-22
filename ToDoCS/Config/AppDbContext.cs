@@ -5,18 +5,11 @@ namespace ToDoCS.Config;
 
 public sealed class AppDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
 
-    private DbSet<User> Users { get; init; } = null!;
+    public DbSet<User> Users { get; init; } = null!;
     
-    public AppDbContext (IConfiguration configuration)
+    public AppDbContext (DbContextOptions<AppDbContext> options) : base(options)
     {
         Database.EnsureCreated();
-        _configuration = configuration;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Db"));
     }
 }
