@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoCS.Config;
+using ToDoCS.Interfaces;
 using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
@@ -15,11 +17,9 @@ public class LoginController: Controller
 
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "LoginAction")]
-    public IActionResult Login(LoginViewModel model)
+    public IActionResult Login([FromServices] ITestService testService, LoginViewModel model)
     {
-        if (ModelState.IsValid)
-            return Json(new { name = model.Name, password = model.Password });
-        
-        return Json(new {name = ModelState["name"].Errors[0].ErrorMessage, password = ModelState["password"].Errors[0].ErrorMessage });
+        Console.WriteLine(Response.Body);
+        return Json(new { test = testService.Show(), test2 = model });
     }
 }

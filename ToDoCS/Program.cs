@@ -3,17 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ToDoCS.Config;
 using ToDoCS.Interfaces;
+using ToDoCS.Models.Entities;
 using ToDoCS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(option =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("Db");
-    option.UseNpgsql(connectionString);
-});
-builder.Services.AddTransient<IDBService, DBService>();
+//var connectionString = builder.Configuration.GetConnectionString("Db");
+//builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+
+//builder.Services.AddTransient<IDBService, DBService>();
+builder.Services.AddSingleton<ITestService, TestService>();
+
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
