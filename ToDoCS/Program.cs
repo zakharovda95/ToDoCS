@@ -8,11 +8,9 @@ using ToDoCS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var connectionString = builder.Configuration.GetConnectionString("Db");
-//builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
-
-//builder.Services.AddTransient<IDBService, DBService>();
-builder.Services.AddSingleton<ITestService, TestService>();
+var connectionString = builder.Configuration.GetConnectionString("Db");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString)); 
+builder.Services.AddScoped<IDBService, DBService>();
 
 builder.Services.AddControllersWithViews();
 
