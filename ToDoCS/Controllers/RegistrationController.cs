@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoCS.Config;
 using ToDoCS.Interfaces;
-using ToDoCS.Models.Entities;
 using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
@@ -18,27 +16,14 @@ public class RegistrationController : Controller
 
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "RegisterAction")]
-    public IActionResult Register(RegistrationViewModel model, [FromServices] IDBService dbService)
+    public IActionResult Register(RegistrationViewModel model, [FromServices] IRegistrationService registrationService)
     {
         if (!ModelState.IsValid)
             return View("Index", model);
 
-        if (dbService.IsEmailAlreadyExist(model.Email))
-        {
-            return View("Index", model);
-        }
+        var registerResult = registrationService.Register(model.Name, model.Email, model.Password);
 
-        var newUser = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = model.Name,
-            Email = model.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-        };
-
-        var isUserSaved = dbService.SaveUser(newUser);
-
-        if (isUserSaved)
+        if (registerResult.Success)
         {
             return Ok(new { status = "Success", message = "Регистрация успешна" });
         }

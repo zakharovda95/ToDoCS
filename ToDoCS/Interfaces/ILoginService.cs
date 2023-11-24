@@ -1,7 +1,9 @@
+using ToDoCS.Models.System;
+
 namespace ToDoCS.Interfaces;
 
 public interface ILoginService
 {
-    public string? Login(string name, string password);
-    public void Logout();
+    public ActionResult? Login(string name, string password);
+    public ActionResult Logout();
 }

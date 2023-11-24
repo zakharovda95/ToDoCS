@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using ToDoCS.Config;
 using ToDoCS.Interfaces;
+using ToDoCS.Models.System;
 
 namespace ToDoCS.Services;
 
@@ -14,11 +15,11 @@ public class LoginService : ILoginService
         _dbService = dbService;
     }
     
-    public string? Login(string name, string password)
+    public ActionResult Login(string name, string password)
     {
         var user = _dbService.GetUser(name, password);
 
-        if (user is null) return null;
+        if (user is null) return new ActionResult { Success = false, Message = "Пользователь не найден" };
         var claims = new List<Claim> { new Claim(ClaimTypes.Name, name) };
         var jwt = new JwtSecurityToken(
             issuer: AuthOptions.ISSUER,
@@ -28,10 +29,11 @@ public class LoginService : ILoginService
             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+        var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+        return new ActionResult { Success = false, Message = token };
     }
 
-    public void Logout()
+    public ActionResult Logout()
     {
         throw new NotImplementedException();
     }
