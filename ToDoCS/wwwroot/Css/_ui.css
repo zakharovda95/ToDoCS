@@ -79,6 +79,11 @@
     min-height: 40px;
     border-radius: 4px;
 }
+
+.global-input__input-error {
+    border: 1px solid red;
+}
+
 .global-input__input:focus {
     border: 1px solid #0c88ff;
 }

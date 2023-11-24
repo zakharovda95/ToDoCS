@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ToDoCS.Config;
 using ToDoCS.Interfaces;
-using ToDoCS.Models.Entities;
 using ToDoCS.Services;
 
 var builder = WebApplication.CreateBuilder(args);

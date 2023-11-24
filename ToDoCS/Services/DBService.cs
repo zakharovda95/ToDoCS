@@ -18,6 +18,16 @@ public class DBService : IDBService
         return _dbContext.Users.Any(user => user.Email == email);
     }
 
+    public User? GetUser(string name, string password)
+    {
+        var user = _dbContext.Users.FirstOrDefault(user => user.Name == name);
+        if (user is not null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+            return user;
+
+        return null;
+
+    }
+
     public bool SaveUser(User user)
     {
         _dbContext.Users.Add(user);

@@ -5,7 +5,8 @@ using ToDoCS.Models.Entities;
 using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
-public class RegistrationController: Controller
+
+public class RegistrationController : Controller
 {
     [HttpGet]
     [Route("Auth/[controller]", Name = "RegisterIndex")]
@@ -14,16 +15,18 @@ public class RegistrationController: Controller
     {
         return View();
     }
-    
+
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "RegisterAction")]
     public IActionResult Register(RegistrationViewModel model, [FromServices] IDBService dbService)
     {
-        
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        
-        if (dbService.IsEmailAlreadyExist(model.Email)) 
-            return BadRequest(new { status = 401, message = "Email уже используется" });
+        if (!ModelState.IsValid)
+            return View("Index", model);
+
+        if (dbService.IsEmailAlreadyExist(model.Email))
+        {
+            return View("Index", model);
+        }
 
         var newUser = new User
         {
@@ -35,8 +38,11 @@ public class RegistrationController: Controller
 
         var isUserSaved = dbService.SaveUser(newUser);
 
-        return isUserSaved
-            ? Json(new { status = 200, message = "Регистрация успешна" })
-            : BadRequest(new { status = 401, message = "Регистрация не удалась" });
+        if (isUserSaved)
+        {
+            return Ok(new { status = "Success", message = "Регистрация успешна" });
+        }
+        
+        return View("Index", model);
     }
 }
