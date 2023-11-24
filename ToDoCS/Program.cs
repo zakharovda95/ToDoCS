@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Db");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString)); 
 builder.Services.AddScoped<IDBService, DBService>();
-
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddTransient<IRegistrationService, RegistrationService>();
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

@@ -20,25 +20,12 @@ public class LoginController: Controller
 
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "LoginAction")]
-    public IActionResult Login(LoginViewModel model, [FromServices] IDBService dbService)
+    public IActionResult Login(LoginViewModel model, [FromServices] ILoginService loginService)
     {
         if (ModelState.IsValid && model is { Name: not null, Password: not null })
         {
-            var user = dbService.GetUser(model.Name, model.Password);
-
-            if (user is null) return View("Index", model);
-            
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, model.Name!) };
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-            );
-
-            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
-
+            var token = loginService.Login(model.Name, model.Password);
+            if(token is null) return View("Index", model);
             return Ok(new { status = "Success", token = token });
         }
         
