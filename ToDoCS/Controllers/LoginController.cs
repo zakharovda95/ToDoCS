@@ -18,7 +18,7 @@ public class LoginController: Controller
 
     [HttpPost]
     [Route("/api/Auth/[controller]/[action]", Name = "LoginAction")]
-    public IActionResult Login(LoginViewModel model, [FromServices] ILoginService loginService)
+    public IActionResult Login([FromBody] LoginViewModel model, [FromServices] ILoginService loginService)
     {
         if (!ModelState.IsValid)
             return BadRequest(new CustomFailedResult

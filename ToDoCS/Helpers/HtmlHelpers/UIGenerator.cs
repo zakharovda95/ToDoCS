@@ -11,7 +11,6 @@ public static class UIGenerator
         string id, 
         string label,
         string name,
-        ViewDataDictionary viewData,
         string placeholder = "Введите текст", 
         string type = "text"
     )
@@ -27,9 +26,6 @@ public static class UIGenerator
         inputTag.Attributes.Add("name", name);
         inputTag.Attributes.Add("id", id);
         inputTag.AddCssClass("global-input__input");
-
-        if (!viewData.ModelState.IsValid)
-            inputTag.AddCssClass("global-input__input-error");
         
         labelTag.Attributes.Add("for", id);
         labelTag.InnerHtml.Append(label);
@@ -42,7 +38,6 @@ public static class UIGenerator
 
     public static IHtmlContent GetButton(
         string text, 
-        ViewDataDictionary viewData,
         bool disabled = false,
         string type = "submit", 
         string id = "",
