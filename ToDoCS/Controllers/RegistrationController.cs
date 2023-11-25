@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoCS.Helpers;
 using ToDoCS.Interfaces;
+using ToDoCS.Models.System;
 using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
@@ -15,19 +17,27 @@ public class RegistrationController : Controller
     }
 
     [HttpPost]
+    [Produces("application/json")]
     [Route("/api/Auth/[controller]/[action]", Name = "RegisterAction")]
-    public IActionResult Register(RegistrationViewModel model, [FromServices] IRegistrationService registrationService)
+    public IActionResult Register(
+        [FromBody] RegistrationViewModel model, 
+        [FromServices] IRegistrationService registrationService,
+        [FromServices] ILoginService loginService)
     {
         if (!ModelState.IsValid)
-            return View("Index", model);
+            return BadRequest(new CustomFailedResult
+            {
+                Success = false,
+                Message = "Ошибки формы",
+                Errors = ModelStateErrorsHelper.GetErrors(ModelState),
+            });
 
         var registerResult = registrationService.Register(model.Name, model.Email, model.Password);
 
-        if (registerResult.Success)
-        {
-            return Ok(new { status = "Success", message = "Регистрация успешна" });
-        }
+        if (!registerResult.Success)
+            return BadRequest(registerResult);
         
-        return View("Index", model);
+        var res = loginService.Login(model.Name, model.Password);
+        return Ok(res);
     }
 }

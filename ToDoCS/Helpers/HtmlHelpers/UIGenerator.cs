@@ -42,12 +42,21 @@ public static class UIGenerator
 
     public static IHtmlContent GetButton(
         string text, 
+        ViewDataDictionary viewData,
+        bool disabled = false,
         string type = "submit", 
+        string id = "",
         UIButtonTypeEnum btnType = UIButtonTypeEnum.Primary, 
         UIButtonSizeEnum btnSize = UIButtonSizeEnum.Medium)
     {
         var buttonTag = new TagBuilder("button");
         buttonTag.Attributes.Add("type", type);
+        buttonTag.Attributes.Add("id", id);
+        if (disabled)
+        {
+            buttonTag.Attributes.Add("disabled", "disabled");
+            buttonTag.AddCssClass("global-button-disabled");
+        }
         buttonTag.AddCssClass("global-button");
         buttonTag.AddCssClass($"global-button__{btnType}-{btnSize}");
         buttonTag.InnerHtml.Append(text);

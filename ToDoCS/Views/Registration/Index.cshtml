@@ -14,12 +14,100 @@
 <div class="registration-page">
     <section class="registration-page__form-section">
         <h4 class="registration-page__title">Регистрация</h4>
-        <form class="global-form" method="post" action="@Url.RouteUrl("RegisterAction")">
-            @UIGenerator.GetInputGroup(id: "name", name: "name", placeholder: "Введите имя", type: "text", label: "Имя", viewData: ViewData)
-            @UIGenerator.GetInputGroup(id: "email", name: "email", placeholder: "Введите email", type: "email", label: "Email", viewData: ViewData)
-            @UIGenerator.GetInputGroup(id: "password", name: "password", placeholder: "Введите пароль", type: "password", label: "Пароль", viewData: ViewData)
-            @UIGenerator.GetInputGroup(id: "passwordRepeat", name: "passwordRepeat", placeholder: "Повторите пароль", type: "password", label: "Повтор пароля", viewData: ViewData)
-            @UIGenerator.GetButton(text: "Зарегистрироваться", btnType: UIButtonTypeEnum.Primary, btnSize: UIButtonSizeEnum.Large, type: "submit")
+        
+        <form class="global-form" action="">
+            @UIGenerator.GetInputGroup(
+                id: "name", 
+                name: "name", 
+                placeholder: "Введите имя", 
+                type: "text", 
+                label: "Имя", 
+                viewData: ViewData)
+            
+            @UIGenerator.GetInputGroup(
+                id: "email", 
+                name: "email", 
+                placeholder: "Введите email", 
+                type: "email", 
+                label: "Email", 
+                viewData: ViewData)
+            
+            @UIGenerator.GetInputGroup(
+                id: "password", 
+                name: "password", 
+                placeholder: "Введите пароль", 
+                type: "password", 
+                label: "Пароль", 
+                viewData: ViewData)
+            
+            @UIGenerator.GetInputGroup(
+                id: "passwordRepeat", 
+                name: "passwordRepeat", 
+                placeholder: "Повторите пароль", 
+                type: "password", 
+                label: "Повтор пароля", 
+                viewData: ViewData)
+            
+            @UIGenerator.GetButton(
+                id: "register-btn", 
+                disabled: true,
+                text: "Зарегистрироваться", 
+                btnType: UIButtonTypeEnum.Primary, 
+                btnSize: UIButtonSizeEnum.Large, 
+                type: "button", 
+                viewData: ViewData)
         </form>
     </section>
 </div>
+
+@section Script {
+    <script lang="js">
+        const form = document.querySelector(".global-form");            
+        const nameField = form.querySelector("#name");
+        const emailField = form.querySelector("#email");
+        const passField = form.querySelector("#password");
+        const passRepeatField = form.querySelector("#passwordRepeat");
+        const registerBtn = form.querySelector("#register-btn");
+        let everyFieldsHasValue;
+    
+        const register = async () => {
+            try {
+              const body = {
+                  name: nameField.value,
+                  email: emailField.value,
+                  password: passField.value,
+                  passwordRepeat: passRepeatField.value
+              };
+              const headers = {
+                  "content-type": "application/json",
+              };
+              const response = await fetch('@Url.Action("Register")', {
+                  method: "POST",
+                  body: JSON.stringify(body),
+                  headers: headers, 
+              });
+              const data = await response.json();
+              
+              console.log(data);
+            } catch (e) {
+                console.error(e)
+            }
+        };
+    
+        document.addEventListener('click', async (e) => {
+            if (e.target.closest("#register-btn") && everyFieldsHasValue) {
+                await register();
+            }
+        });
+        document.addEventListener('input', (e) => {
+            everyFieldsHasValue = nameField.value && emailField.value && passField.value && passRepeatField.value;
+            if (e.target.closest(".global-form") && everyFieldsHasValue) {
+                registerBtn.removeAttribute("disabled");
+                registerBtn.classList.remove("global-button-disabled");
+            } else {
+                registerBtn.disabled = "disabled";
+                registerBtn.classList.add("global-button-disabled");
+            }
+        });
+    </script>
+}

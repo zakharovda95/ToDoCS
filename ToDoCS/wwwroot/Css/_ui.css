@@ -8,6 +8,10 @@
     cursor: pointer;
 }
 
+.global-button-disabled {
+    opacity: 0.5 !important;
+}
+
 .global-button__Primary-Small,
 .global-button__Secondary-Small,
 .global-button__Tertiary-Small {

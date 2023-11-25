@@ -1,9 +1,7 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using ToDoCS.Config;
+using ToDoCS.Helpers;
 using ToDoCS.Interfaces;
+using ToDoCS.Models.System;
 using ToDoCS.ViewModels;
 
 namespace ToDoCS.Controllers;
@@ -22,13 +20,21 @@ public class LoginController: Controller
     [Route("/api/Auth/[controller]/[action]", Name = "LoginAction")]
     public IActionResult Login(LoginViewModel model, [FromServices] ILoginService loginService)
     {
-        if (ModelState.IsValid && model is { Name: not null, Password: not null })
+        if (!ModelState.IsValid)
+            return BadRequest(new CustomFailedResult
+            {
+                Success = false,
+                Message = "Ошибки формы",
+                Errors = ModelStateErrorsHelper.GetErrors(ModelState)
+            });
+
+        if (model is { Name: not null, Password: not null})
         {
-            var token = loginService.Login(model.Name, model.Password);
-            if(token is null) return View("Index", model);
-            return Ok(new { status = "Success", token = token });
+            var loginResult = loginService.Login(model.Name, model.Password);
+            if (loginResult is not null && loginResult.Success) return Ok(loginResult);
+            return NotFound(loginResult);
         }
-        
-        return View("Index", model);
+
+        return BadRequest(new CustomResult { Success = false, Message = "Вход в систему не удался" });
     }
 }

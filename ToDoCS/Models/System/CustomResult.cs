@@ -1,7 +1,7 @@
 namespace ToDoCS.Models.System;
 
-public record ActionResult
+public record CustomResult
 {
     public bool Success { get; init; }
     public string? Message { get; init; }
-};
+}

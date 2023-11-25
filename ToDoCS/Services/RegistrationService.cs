@@ -12,21 +12,28 @@ public class RegistrationService : IRegistrationService
         _dbService = dbService;
     }
     
-    public ActionResult Register(string name, string email, string password)
+    public CustomResult Register(string name, string email, string password)
     {
-        if (_dbService.IsEmailAlreadyExist(email))
-            return new ActionResult { Success = false, Message = "Email уже используется" };
-
-        var newUser = new User
+        try
         {
-            Id = Guid.NewGuid(),
-            Name = name,
-            Email = email,
-            Password = BCrypt.Net.BCrypt.HashPassword(password),
-        };
+            if (_dbService.IsEmailAlreadyExist(email))
+                return new CustomResult { Success = false, Message = "Email уже используется" };
 
-        var res = _dbService.SaveUser(newUser);
-        if (!res) return new ActionResult { Success = false, Message = "Регистрация не удалась" };
-        return new ActionResult { Success = false, Message = "Успешная регистрация" };
+            var newUser = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = name,
+                Email = email,
+                Password = BCrypt.Net.BCrypt.HashPassword(password),
+            };
+
+            var res = _dbService.SaveUser(newUser);
+            return !res ? new CustomResult { Success = false, Message = "Регистрация не удалась" } : 
+                new CustomSuccessResult<User> { Success = true, Message = "Успешная регистрация", Data = newUser };
+        }
+        catch (Exception e)
+        {
+            return new CustomResult { Success = false, Message = e.Message };
+        }
     }
 }

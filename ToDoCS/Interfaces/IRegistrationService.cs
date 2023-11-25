@@ -4,5 +4,5 @@ namespace ToDoCS.Interfaces;
 
 public interface IRegistrationService
 {
-    public ActionResult Register(string name, string email, string password);
+    public CustomResult Register(string name, string email, string password);
 }
